@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skin Preferences - SkinLytics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-header">
+  <div class="logo">
+  <img src="logo.png" alt="SkinLytics Logo">
+</div>
+  <button onclick="goBack()">⬅ Back</button>
+</header>
+
+<section class="skin-section">
+
+  <h2>Skin Preferences</h2>
+
+  <div class="skin-container">
+
+    <!-- Skin Type -->
+    <label>Skin Type</label>
+    <select>
+      <option>Oily</option>
+      <option>Dry</option>
+      <option>Combination</option>
+      <option>Sensitive</option>
+    </select>
+
+    <!-- Skin Concerns -->
+    <label>Skin Concerns</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox"> Acne</label>
+      <label><input type="checkbox"> Pigmentation</label>
+      <label><input type="checkbox"> Dark Spots</label>
+      <label><input type="checkbox"> Dryness</label>
+      <label><input type="checkbox"> Oiliness</label>
+      <label><input type="checkbox"> Wrinkles</label>
+      <label><input type="checkbox"> Redness</label>
+    </div>
+
+    <!-- Skin Goals -->
+    <label>Skin Goals</label>
+    <input type="text" placeholder="e.g. Glow, Clear skin">
+
+    <!-- Product Preferences -->
+    <label>Product Preferences</label>
+    <select>
+      <option>Natural</option>
+      <option>Chemical</option>
+      <option>Dermatologist Recommended</option>
+      <option>Budget Friendly</option>
+    </select>
+
+    <!-- Allergies -->
+    <label>Allergies / Sensitivities</label>
+    <input type="text" placeholder="e.g. No fragrance, No alcohol">
+
+    <!-- Routine Level -->
+    <label>Routine Level</label>
+    <select>
+      <option>Beginner</option>
+      <option>Intermediate</option>
+      <option>Advanced</option>
+    </select>
+
+    <!-- Sensitivity Level -->
+    <label>Sensitivity Level</label>
+    <select>
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+
+    <!-- Climate -->
+    <label>Climate</label>
+    <select>
+      <option>Humid</option>
+      <option>Dry</option>
+      <option>Cold</option>
+      <option>Hot</option>
+    </select>
+
+    <!-- Routine Frequency -->
+    <label>Routine Frequency</label>
+    <select>
+      <option>Daily</option>
+      <option>Weekly</option>
+      <option>Occasional</option>
+    </select>
+
+    <!-- BUTTONS -->
+    <button onclick="savePreferences()" class="save-btn">Save Preferences</button>
+    <button onclick="goBack()" class="cancel-btn">Cancel</button>
+
+  </div>
+
+</section>
+
+<script>
+function goBack() {
+  window.location.href = "profile.html";
+}
+
+function savePreferences() {
+  alert("✅ Preferences saved successfully!");
+}
+</script>
+
+</body>
+</html>

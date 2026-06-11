@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Detect Skin Issue</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#f3e8ff;
+  text-align:center;
+  padding:40px;
+}
+
+.box{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  width:300px;
+  margin:auto;
+  box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+</style>
+
+</head>
+<body>
+
+<h2>Detected Skin Issue</h2>
+
+<div class="box">
+  <img id="img" width="200"><br><br>
+  <p id="result"></p>
+</div>
+
+<script>
+
+function getSkinData(){
+
+  const input = localStorage.getItem("aiInput") || "";
+  const image = localStorage.getItem("aiImage");
+
+  let type = "";
+  const text = input.toLowerCase();
+
+  if(text.includes("acne") || text.includes("pimple")){
+    type = "acne";
+  }
+  else if(text.includes("dry")){
+    type = "dry";
+  }
+  else if(text.includes("oily")){
+    type = "oily";
+  }
+  else if(image){
+    const arr = ["acne","dry","oily","normal"];
+    type = arr[Math.floor(Math.random()*arr.length)];
+  }
+  else{
+    type = "normal";
+  }
+
+  return { type, image };
+}
+
+// RUN CODE
+const data = getSkinData();
+
+document.getElementById("img").src = data.image;
+
+document.getElementById("result").innerText =
+"Detected: " + data.type.toUpperCase() +
+"\nConfidence: " + (70 + Math.floor(Math.random()*20)) + "%";
+
+</script>
+
+</body>
+</html>

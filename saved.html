@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Saved Suggestions</h2>
+
+<p id="saved"></p>
+
+<script>
+document.getElementById("saved").innerText =
+localStorage.getItem("savedSuggestion") || "No data saved";
+</script>
+
+</body>
+</html>

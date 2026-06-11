@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Settings - SkinLytics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-header">
+  <div class="logo">
+  <img src="logo.png" alt="SkinLytics Logo">
+</div>
+  <button onclick="goBack()">⬅ Back</button>
+</header>
+
+<div class="about-page">
+
+  <!-- ACCOUNT -->
+  <section class="about-box">
+    <h2>Account Settings</h2>
+    <button onclick="goToEditProfile()">Edit Profile</button>
+    <button onclick="goToChangePassword()">Change Password</button>
+    <button onclick="logout()">Logout</button>
+  </section>
+
+  <!-- SKIN -->
+  <section class="about-box">
+    <h2>Skin Preferences</h2>
+    <button onclick="goToSkinPreferences()">Update Preferences</button>
+  </section>
+
+  <!-- NOTIFICATIONS -->
+  <section class="about-box">
+    <h2>Notifications</h2>
+    <label><input type="checkbox"> Email Alerts</label><br>
+    <label><input type="checkbox"> AI Alerts</label>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="about-box">
+    <h2>Privacy & Security</h2>
+    <button onclick="window.location.href='privacy.html'">Privacy Policy</button>
+    <button onclick="window.location.href='terms.html'">Terms & Conditions</button>
+  </section>
+
+  <!-- APP SETTINGS -->
+  <section class="about-box">
+    <h2>App Settings</h2>
+
+    <label>
+      <input type="checkbox" onclick="toggleDarkMode()"> Dark Mode
+    </label><br><br>
+
+    <select>
+      <option>English</option>
+      <option>Hindi</option>
+      <option>Odia</option>
+    </select>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="about-box">
+    <h2>Support</h2>
+    <button onclick="goToContact()">Contact Us</button>
+    <button onclick="goToHelp()">Help</button>
+  </section>
+
+  <!-- DATA -->
+  <section class="about-box">
+    <h2>Data</h2>
+    <button onclick="downloadReport()">Download Report</button>
+    <button onclick="clearData()">Clear Data</button>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-box">
+    <h2>About</h2>
+    <button onclick="goToAbout()">App Info</button>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+function goBack() {
+  window.location.href = "index.html";
+}
+
+function goToPrivacy() {
+  alert("Privacy Policy page coming soon");
+}
+
+function goToTerms() {
+  alert("Terms page coming soon");
+}
+
+function help() {
+  alert("Help section coming soon");
+}
+</script>
+
+</body>
+</html>

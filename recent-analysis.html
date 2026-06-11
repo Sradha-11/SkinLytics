@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Recent Analysis</h2>
+
+<img id="img" width="200">
+<p id="result"></p>
+
+<script>
+document.getElementById("img").src =
+localStorage.getItem("aiImage");
+
+document.getElementById("result").innerText =
+localStorage.getItem("aiResult");
+</script>
+
+</body>
+</html>

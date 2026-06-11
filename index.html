@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkinLytics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== TOP HEADER ===== -->
+<header class="top-header">
+  <div class="left">
+  <div class="logo">
+  <img src="logo.png" alt="SkinLytics Logo">
+</div>
+</div>
+  </div>
+
+  <div class="center">
+    <input type="text" placeholder="Search skincare...">
+  </div>
+
+  <div class="right">
+    <button>🔔</button>
+    <button onclick="goToProfile()">👤</button>
+    <button onclick="goToSettings()">⚙</button>
+    <button onclick="login()">Login</button>
+   <button onclick="signup()">Sign Up</button>
+  </div>
+</header>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="home" class="hero">
+  <h1>AI Skin Care Assistant</h1>
+  <p>Analyze your skin & get personalized skincare suggestions instantly.</p>
+  <button onclick="scrollToSection('search')">Start Analysis</button>
+</section>
+<!-- ===== AI SEARCH ===== -->
+<section id="search" class="section">
+  <h2>AI Search Section</h2>
+  <input type="text" id="searchInput" placeholder="Ask anything...">
+  <div>
+    <button onclick="voice()">🎤</button>
+    <button onclick="camera()">📷</button>
+    <button onclick="upload()">📂</button>
+  </div>
+  <button onclick="searchAI()">Search</button>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="section">
+  <h2>Features Section</h2>
+  <ul>
+    <li>Skin Problem Detection</li>
+    <li>Image Analysis</li>
+    <li>Personalized Suggestions</li>
+    <li>Product Recommendations</li>
+    <li>AI Chat</li>
+  </ul>
+</section>
+
+<!-- ===== AI TOOLS ===== -->
+<section class="section">
+  <h2>AI Tools Preview</h2>
+  <p>Upload Image | Camera | Voice Input | AI Suggestions</p>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section">
+  <h2>How It Works</h2>
+  <p>1. Upload Image</p>
+  <p>2. AI Analysis</p>
+  <p>3. Get Suggestions</p>
+</section>
+
+<!-- ===== BENEFITS ===== -->
+<section class="section">
+  <h2>Benefits Section</h2>
+  <p>Save time | Accurate results | Easy to use</p>
+</section>
+
+<!-- ===== ABOUT PREVIEW ===== -->
+<section id="about" class="about-section">
+  <div class="about-container">
+
+    <div class="about-text">
+      <h2>About SkinLytics</h2>
+      <p>
+        SkinLytics is an AI-powered skincare assistant that helps users analyze 
+        their skin conditions and receive personalized skincare recommendations.
+      </p>
+
+      <p>
+        Using intelligent image analysis, it detects issues like acne, dryness, 
+        and oiliness, and suggests the best skincare products and routines.
+      </p>
+
+      <p>
+        Our goal is to make skincare simple, smart, and accessible for everyone.
+      </p>
+
+      <button onclick="goToAbout()">Learn More</button>
+    </div>
+
+    <div class="about-image">
+      <img src="https://cdn-icons-png.flaticon.com/512/3771/3771554.png" width="200">
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="section">
+  <h2>Contact Us</h2>
+  <button onclick="goToContact()">Contact</button>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>© 2026 SkinLytics</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

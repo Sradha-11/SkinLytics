@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Daily Tips</h2>
+
+<p id="tips"></p>
+
+<script>
+const tips = [
+"Drink water 💧",
+"Use sunscreen ☀️",
+"Clean face twice 🧼",
+"Do not touch face 🚫"
+];
+
+document.getElementById("tips").innerText =
+tips[Math.floor(Math.random()*tips.length)];
+</script>
+
+</body>
+</html>

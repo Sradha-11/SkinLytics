@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile - SkinLytics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-header">
+  <div class="logo">
+  <img src="logo.png" alt="SkinLytics Logo">
+</div>
+  <button onclick="goBack()">⬅ Back</button>
+</header>
+
+<section class="edit-profile-section">
+
+  <h2>Edit Profile</h2>
+
+  <div class="edit-profile-container">
+
+    <!-- Profile Picture -->
+    <label>Profile Picture</label>
+    <input type="file">
+
+    <!-- Basic Info -->
+    <input type="text" placeholder="Name">
+    <input type="email" placeholder="Email">
+
+    <!-- Skin Info -->
+    <label>Skin Type</label>
+    <select>
+      <option>Oily</option>
+      <option>Dry</option>
+      <option>Combination</option>
+      <option>Sensitive</option>
+    </select>
+
+    <label>Primary Concern</label>
+    <select>
+      <option>Acne</option>
+      <option>Pigmentation</option>
+      <option>Dark Spots</option>
+      <option>Wrinkles</option>
+      <option>Normal</option>
+    </select>
+
+    <label>Skin Goals</label>
+    <input type="text" placeholder="e.g. Clear skin, Glow">
+
+    <!-- Personal Info -->
+    <input type="number" placeholder="Age">
+
+    <select>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+
+    <!-- Preferences -->
+    <label>Preferences</label>
+    <select>
+      <option>Natural</option>
+      <option>Chemical</option>
+      <option>Both</option>
+    </select>
+
+    <input type="text" placeholder="Allergies / Ingredients to avoid">
+
+    <!-- Notifications -->
+    <label>Notifications</label>
+    <div class="toggle-group">
+      <label><input type="checkbox"> Email Notifications</label>
+      <label><input type="checkbox"> AI Suggestions Alerts</label>
+    </div>
+
+    <!-- Buttons -->
+    <button onclick="saveProfile()" class="save-btn">Save Changes</button>
+    <button onclick="goBack()" class="cancel-btn">Cancel</button>
+
+  </div>
+
+</section>
+
+<script>
+function goBack() {
+  window.location.href = "profile.html";
+}
+
+function saveProfile() {
+  const name = document.querySelector('input[type="text"]').value;
+  const email = document.querySelector('input[type="email"]').value;
+  const age = document.querySelector('input[type="number"]').value;
+
+  localStorage.setItem("name", name);
+  localStorage.setItem("email", email);
+  localStorage.setItem("age", age);
+
+  alert("✅ Profile updated!");
+
+  window.location.href = "profile.html";
+}
+</script>
+
+</body>
+</html>

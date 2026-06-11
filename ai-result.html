@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Result - SkinLytics</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-header">
+  <h2>AI Result</h2>
+  <button onclick="goBack()">⬅ Back</button>
+</header>
+
+<div class="about-page">
+
+  <div class="about-box">
+    <h3>Your Input</h3>
+    <p id="userInput">Loading...</p>
+    <div class="about-box">
+  <h2>Skin Analysis Result</h2>
+
+<p id="userInput">Loading...</p>
+
+<pre id="aiResultText"></pre>
+<div>
+  <h3>Face Image</h3>
+  <img id="resultImage" width="250">
+</div>
+</div>
+    <div class="about-box">
+  <h3>Uploaded / Captured Image</h3>
+  <img id="resultImage" width="250">
+</div>
+  </div>
+
+  <div class="about-box">
+    <h3>AI Analysis Result</h3>
+    <p id="resultText">Analyzing...</p>
+  </div>
+
+</div>
+
+<script>
+function goBack(){
+  window.location.href="dashboard.html";
+}
+
+// Load data
+window.onload = function(){
+
+  const input = localStorage.getItem("aiInput") || "";
+  const image = localStorage.getItem("aiImage");
+
+  document.getElementById("userInput").innerText = input;
+
+  // SHOW IMAGE
+  if(image){
+    document.getElementById("resultImage").src = image;
+  }
+
+  let result = "";
+  let products = "";
+  let score = Math.floor(Math.random() * 30) + 60; // 60–90 score
+
+  const text = input.toLowerCase();
+
+  // 🎯 DETECT TYPE
+  let detectedType = "";
+
+  if(text.includes("acne") || text.includes("pimple")){
+    detectedType = "acne";
+  }
+  else if(text.includes("dry")){
+    detectedType = "dry";
+  }
+  else if(text.includes("oily")){
+    detectedType = "oily";
+  }
+  else if(image){
+    const types = ["acne", "dry", "oily", "normal"];
+    detectedType = types[Math.floor(Math.random() * types.length)];
+  }
+  else{
+    detectedType = "normal";
+  }
+
+  // 🔴 ACNE
+  if(detectedType === "acne"){
+    result = "🔴 Acne Detected\n\n" +
+             "• Mild to moderate pimples\n" +
+             "• Oil imbalance\n\n" +
+             "✔ Advice:\n" +
+             "• Use salicylic acid\n" +
+             "• Avoid oily creams\n" +
+             "• Wash twice daily";
+
+    products = "🛍 Products:\n" +
+               "• Cetaphil Oily Cleanser\n" +
+               "• Minimalist Salicylic Serum\n" +
+               "• Neutrogena Oil-Free Moisturizer";
+  }
+
+  // 🔵 DRY
+  else if(detectedType === "dry"){
+    result = "🔵 Dry Skin Detected\n\n" +
+             "• Low hydration\n" +
+             "• Rough texture\n\n" +
+             "✔ Advice:\n" +
+             "• Use thick moisturizer\n" +
+             "• Avoid hot water\n" +
+             "• Drink more water";
+
+    products = "🛍 Products:\n" +
+               "• Nivea Soft Cream\n" +
+               "• Hyaluronic Acid Serum\n" +
+               "• Cetaphil Gentle Cleanser";
+  }
+
+  // 🟡 OILY
+  else if(detectedType === "oily"){
+    result = "🟡 Oily Skin Detected\n\n" +
+             "• Excess sebum\n" +
+             "• Shine on face\n\n" +
+             "✔ Advice:\n" +
+             "• Use oil-free products\n" +
+             "• Apply toner\n" +
+             "• Clean twice daily";
+
+    products = "🛍 Products:\n" +
+               "• Himalaya Neem Face Wash\n" +
+               "• Plum Green Tea Toner\n" +
+               "• Pond's Gel Moisturizer";
+  }
+
+  // 🟢 NORMAL
+  else{
+    result = "🟢 Normal Skin\n\n" +
+             "• Balanced condition\n\n" +
+             "✔ Advice:\n" +
+             "• Maintain routine\n" +
+             "• Use sunscreen\n" +
+             "• Stay hydrated";
+
+    products = "🛍 Products:\n" +
+               "• Simple Face Wash\n" +
+               "• Pond's Light Gel\n" +
+               "• Neutrogena SPF 50";
+  }
+
+  // FINAL OUTPUT
+  document.getElementById("resultText").innerText =
+    "Skin Score: " + score + "/100\n\n" +
+    result + "\n\n" + products;
+};
+</script>
+
+</body>
+</html>

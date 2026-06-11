@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Before / After</h2>
+
+<img id="before" width="150">
+<img id="after" width="150">
+
+<script>
+document.getElementById("before").src =
+localStorage.getItem("oldImage");
+
+document.getElementById("after").src =
+localStorage.getItem("aiImage");
+</script>
+
+</body>
+</html>

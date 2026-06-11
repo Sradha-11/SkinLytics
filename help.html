@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Help - SkinLytics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-header">
+  <div class="logo">
+  <img src="logo.png" alt="SkinLytics Logo">
+</div>
+  <button onclick="goBack()">⬅ Back</button>
+</header>
+
+<div class="about-page">
+
+  <section class="about-box">
+    <h2>Help & FAQ</h2>
+
+    <h3>Ask Your Question</h3>
+
+     <input type="text" id="userQuestion" placeholder="Type your question here...">
+
+     <button onclick="sendQuestion()" class="save-btn">
+      Send Question
+      </button>
+
+    <p><b>How to use SkinLytics?</b><br>
+    Upload image → AI analysis → Get suggestions.</p>
+
+    <p><b>How to update profile?</b><br>
+    Go to Profile → Edit Profile.</p>
+
+    <p><b>How to contact support?</b><br>
+    Use Contact Us page.</p>
+
+  </section>
+
+</div>
+
+<script>
+function goBack() {
+  window.location.href = "settings.html";
+}
+</script>
+
+<script>
+function goBack() {
+  window.location.href = "settings.html";
+}
+
+function sendQuestion() {
+  const question = document.getElementById("userQuestion").value;
+
+  if (question === "") {
+    alert("❌ Please enter your question");
+  } else {
+    alert("✅ Your question has been sent!");
+    document.getElementById("userQuestion").value = "";
+  }
+}
+</script>
+
+</body>
+</html>

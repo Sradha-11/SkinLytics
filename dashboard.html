@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest"></script>
+<meta charset="UTF-8">
+<title>SkinLytics Dashboard</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#f3e8ff;
+}
+
+/* Top Header */
+.dashboard-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#e0c3fc;
+padding:15px 20px;
+}
+
+.dashboard-header input{
+width:300px;
+padding:8px;
+}
+
+/* Top Nav */
+.dashboard-nav{
+display:flex;
+justify-content:center;
+gap:30px;
+background:#c084fc;
+padding:12px;
+}
+
+.dashboard-nav a{
+text-decoration:none;
+font-weight:bold;
+color:black;
+}
+
+/* Layout */
+.dashboard-container{
+display:flex;
+}
+
+/* Sidebar */
+.sidebar{
+width:220px;
+background:#ede9fe;
+min-height:100vh;
+padding:20px;
+}
+
+.sidebar button{
+display:block;
+width:100%;
+margin:12px 0;
+}
+
+/* Main */
+.main-content{
+flex:1;
+padding:20px;
+}
+
+/* Cards */
+.dashboard-box{
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:12px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+
+.tools{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.tool-btn{
+flex:1;
+min-width:150px;
+}
+
+.upload-box{
+border:2px dashed #bbb;
+padding:40px;
+text-align:center;
+margin:15px 0;
+}
+
+.results{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+.result-card{
+background:#ede9fe;
+padding:15px;
+border-radius:10px;
+text-align:center;
+}
+
+.quick-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+button:hover{
+background:#7c3aed;
+}
+#camera {
+  display: none;
+  width: 300px;
+  height: 220px;
+  margin-top: 15px;
+  border: 3px solid #7c3aed;
+  border-radius: 10px;
+  object-fit: cover;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="dashboard-header">
+
+<div class="logo">
+  <img src="logo.png" alt="SkinLytics Logo">
+</div>
+
+<div>
+<input type="text" placeholder="Search...">
+</div>
+
+<div>
+<button onclick="notifications()">🔔</button>
+<button onclick="goProfile()">👤</button>
+<button onclick="goSettings()">⚙</button>
+</div>
+
+</header>
+
+<!-- TOP NAV -->
+<nav class="dashboard-nav">
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="analyzer.html">AI Analyzer</a>
+<a href="history.html">History</a>
+<a href="help.html">Help</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+
+<div class="dashboard-container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<button onclick="goHome()">🏠 Home</button>
+
+<button onclick="goDashboard()">📊 Dashboard</button>
+
+<button onclick="analyzeSkin()">🔍 AI Analyzer</button>
+
+<button onclick="historyPage()">🕘 History</button>
+
+<button onclick="window.location.href='help.html'">
+❓ Help
+</button>
+
+<button onclick="window.location.href='about.html'">
+ℹ About
+</button>
+
+<button onclick="window.location.href='contact.html'">
+✉ Contact
+</button>
+
+<hr>
+
+<button onclick="goProfile()">
+👤 Profile
+</button>
+
+<button onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+<!-- AI Assistant -->
+<div class="dashboard-box">
+<h2>AI Skin Assistant</h2>
+
+<input type="text" id="aiSearch" placeholder="Ask anything about your skin..." style="width:100%; padding:10px;">
+
+<br><br>
+
+<div class="tools">
+<button class="tool-btn" onclick="startMic()">🎤 Mic</button>
+
+<button class="tool-btn" onclick="openCamera()">📷 Camera</button>
+
+<button class="tool-btn" onclick="openUpload()">📂 Upload</button>
+
+<button class="tool-btn" onclick="enterLink()">🔗 Link</button>
+</div>
+
+<br>
+
+<button onclick="processInput()">Get Result</button>
+<div id="preview"></div>
+
+<video id="camera" autoplay playsinline></video>
+<button onclick="flipCamera()">🔄 Flip Camera</button>
+<button onclick="captureImage()">📸 Capture</button>
+<div id="preview"></div>
+
+</div>
+
+<!-- Skin Analysis -->
+<div class="dashboard-box">
+<h2>Skin Analysis</h2>
+
+<div class="upload-box" id="dropArea">
+  <p id="dropText">Drag & Drop File Here</p>
+  <img id="analysisPreview" style="display:none; width:180px; border-radius:10px;">
+</div>
+
+<br>
+
+<input type="file" id="fileInput" style="display:none;">
+
+<button onclick="openUpload()">Upload File</button>
+<button onclick="openCamera()">Open Camera</button>
+
+<br><br>
+
+<!-- CAMERA -->
+<video id="camera" width="250" autoplay playsinline style="display:none;"></video>
+<br>
+<button id="captureBtn" onclick="captureImage()" style="display:none;">📸 Capture</button>
+
+<br><br>
+
+<div style="text-align:right;">
+  <button onclick="processInput()">Get Result</button>
+</div>
+
+</div>
+
+<!-- AI Tools -->
+<div class="dashboard-box">
+<h2>AI Analysis Tools</h2>
+
+<div class="tools">
+<button onclick="detectIssue()">Detect Skin Issue</button>
+
+<button onclick="skinScore()">Skin Health Score</button>
+
+<button onclick="routine()">Skincare Routine</button>
+
+<button onclick="products()">Products</button>
+
+<button onclick="tips()">Skincare Tips</button>
+</div>
+
+</div>
+
+
+<!-- Quick Access -->
+<div class="dashboard-box">
+<h2>Quick Access</h2>
+
+<div class="quick-grid">
+
+<div class="result-card" onclick="goRecentAnalysis()">
+Recent Analysis
+</div>
+
+<div class="result-card" onclick="goUploads()">
+Recent Uploads
+</div>
+
+<div class="result-card" onclick="goSaved()">
+Saved Suggestions
+</div>
+
+</div>
+</div>
+
+<!-- Extra Insights -->
+<div class="dashboard-box">
+<h2>Extra Insights</h2>
+<div class="quick-grid">
+
+<div class="result-card" onclick="goTipsPage()">
+Daily Skincare Tips
+</div>
+
+<div class="result-card" onclick="goTrending()">
+Trending Products
+</div>
+
+<div class="result-card" onclick="goCompare()">
+Before/After Comparison
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<input type="file" id="fileInput" style="display:none;">
+let currentInput = "";
+<script>
+
+function goRecentAnalysis(){
+  window.location.href = "recent-analysis.html";
+}
+
+function goUploads(){
+  window.location.href = "recent-uploads.html";
+}
+
+function goSaved(){
+  window.location.href = "saved.html";
+}
+
+function goTipsPage(){
+  window.location.href = "daily-tips.html";
+}
+
+function goTrending(){
+  window.location.href = "trending.html";
+}
+
+function goCompare(){
+  window.location.href = "compare.html";
+}
+
+  let stream;
+let facingMode = "user"; // front camera default
+
+// ✅ ADD THIS AT VERY TOP
+window.onload = function () {
+  const user = localStorage.getItem("email");
+
+  if (!user) {
+    alert("Please login first!");
+    window.location.href = "login.html";
+  }
+};
+
+// your existing functions below ↓↓↓
+
+function goHome(){
+window.location.href="index.html";
+}
+function goHome(){
+window.location.href="index.html";
+}
+
+function goDashboard(){
+window.location.href="dashboard.html";
+}
+
+function goProfile(){
+window.location.href="profile.html";
+}
+
+function goSettings(){
+window.location.href="settings.html";
+}
+
+function logout(){
+alert("Logged out");
+window.location.href="index.html";
+}
+
+function notifications(){
+  window.location.href = "notifications.html";
+}
+function analyzeSkin(){
+  window.location.href = "analyzer.html";
+}
+
+function historyPage(){
+  window.location.href = "history.html";
+}
+
+function detectIssue(){
+  window.location.href = "detect.html";
+}
+
+function skinScore(){
+  window.location.href = "score.html";
+}
+
+function routine(){
+  window.location.href = "routine.html";
+}
+
+function products(){
+  window.location.href = "products.html";
+}
+
+function tips(){
+  window.location.href = "tips.html";
+}
+
+// ✅ ADD DRAG & DROP HERE (LAST PART)
+const uploadBox = document.querySelector(".upload-box");
+
+uploadBox.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  uploadBox.style.background = "#ddd";
+});
+
+uploadBox.addEventListener("dragleave", () => {
+  uploadBox.style.background = "";
+});
+
+uploadBox.addEventListener("drop", () => {
+  uploadBox.innerHTML = "✅ File Uploaded!";
+});
+
+function searchAI(){
+  const input = document.getElementById("aiSearch").value;
+
+  if(input === ""){
+    alert("Enter something!");
+  } else {
+    localStorage.setItem("aiInput", input);
+    window.location.href = "ai-result.html";
+  }
+}
+
+let currentInput = "";
+let model;
+const URL = "https://teachablemachine.withgoogle.com/models/[...]";
+function getAdvice(type){
+
+  if(type === "Acne"){
+    return {
+      advice: "Use salicylic acid cleanser, avoid oily food, wash face twice daily.",
+      product: "Salicylic Acid Face Wash + Niacinamide Serum"
+    };
+  }
+
+  else if(type === "Dry"){
+    return {
+      advice: "Use hydrating moisturizer, drink more water, avoid hot water wash.",
+      product: "Hyaluronic Acid Moisturizer + Gentle Cleanser"
+    };
+  }
+
+  else if(type === "Oily"){
+    return {
+      advice: "Use gel-based cleanser, oil control products, avoid heavy creams.",
+      product: "Oil Control Face Wash + Clay Mask"
+    };
+  }
+
+  else{
+    return {
+      advice: "Maintain daily skincare routine and sunscreen.",
+      product: "Sunscreen SPF 50 + Basic Moisturizer"
+    };
+  }
+}
+async function loadModel(){
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
+
+  model = await tmImage.load(modelURL, metadataURL);
+}
+
+// 🔍 SEARCH
+function processInput(){
+
+  const text = (document.getElementById("aiSearch").value || currentInput).toLowerCase();
+
+  if(text === ""){
+    alert("Please provide input!");
+    return;
+  }
+
+  localStorage.setItem("aiInput", text);
+
+  let result = "";
+
+  // 🧠 SKIN AI LOGIC START
+
+  if(text.includes("acne") || text.includes("pimple")){
+    result = "🧴 Acne Detected\nUse salicylic acid cleanser + avoid oily food + keep skin clean.";
+  }
+
+  else if(text.includes("dry") || text.includes("dry skin")){
+    result = "💧 Dry Skin Detected\nUse moisturizer with hyaluronic acid + drink more water.";
+  }
+
+  else if(text.includes("oily") || text.includes("oil")){
+    result = "🧼 Oily Skin Detected\nUse gel-based cleanser + avoid heavy creams.";
+  }
+
+  else if(text.includes("pigment") || text.includes("dark spots")){
+    result = "🌿 Pigmentation Issue\nUse vitamin C serum + sunscreen daily.";
+  }
+
+  else if(text.includes("blackhead")){
+    result = "⚫ Blackheads Detected\nUse exfoliation 2-3 times a week + clay mask.";
+  }
+
+  else if(text.includes("skin care routine") || text.includes("routine")){
+    result = "🧴 Basic Routine:\n1. Cleanser\n2. Toner\n3. Moisturizer\n4. Sunscreen";
+  }
+
+  else {
+    result = "🤖 SkinLytics AI\nPlease mention skin issues like acne, dryness, oiliness, pigmentation for better results.";
+  }
+
+  // 🔥 SAVE RESULT
+  localStorage.setItem("aiResult", result);
+
+  // 🔥 GO TO RESULT PAGE
+  window.location.href = "ai-result.html";
+}
+
+// 🎤 MIC
+function startMic(){
+  if (!('webkitSpeechRecognition' in window)) {
+    alert("Mic not supported");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+
+  document.getElementById("aiSearch").value = "🎤 Listening...";
+
+  recognition.start();
+
+  recognition.onresult = function(event){
+  const speech = event.results[0][0].transcript;
+
+  document.getElementById("aiSearch").value = speech;
+  currentInput = speech;
+
+  // ❌ REMOVE AUTO REDIRECT (if you added before)
+};
+}
+
+// 📷 CAMERA
+function openCamera(){
+  const video = document.getElementById("camera");
+
+  video.style.display = "block";
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      video.srcObject = stream;
+      document.getElementById("aiSearch").value = "📷 Camera Ready";
+    })
+    .catch(() => alert("Allow camera permission"));
+}
+function captureImage(){
+  const video = document.getElementById("camera");
+
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0);
+
+  const imageData = canvas.toDataURL("image/png");
+
+  // SAVE IMAGE
+  localStorage.setItem("aiImage", imageData);
+
+  // SHOW PREVIEW
+  const img = document.createElement("img");
+  img.src = imageData;
+  img.width = 200;
+
+  const preview = document.getElementById("preview");
+  preview.innerHTML = "";
+  preview.appendChild(img);
+
+  // STOP CAMERA
+  const stream = video.srcObject;
+  const tracks = stream.getTracks();
+  tracks.forEach(track => track.stop());
+  video.style.display = "none";
+
+  currentInput = "Captured Image";
+}
+function flipCamera(){
+
+  // stop current camera
+  if(stream){
+    stream.getTracks().forEach(track => track.stop());
+  }
+
+  // switch camera mode
+  facingMode = (facingMode === "user") ? "environment" : "user";
+
+  // restart camera
+  openCamera();
+}
+
+// 📂 UPLOAD
+function openUpload(){
+  const fileInput = document.getElementById("fileInput");
+
+  fileInput.click();
+
+  fileInput.onchange = function(){
+    if(fileInput.files.length > 0){
+
+      const file = fileInput.files[0];
+
+      const reader = new FileReader();
+
+      reader.onload = function(e){
+
+        const imageData = e.target.result;
+
+        // SAVE IMAGE
+        localStorage.setItem("aiImage", imageData);
+
+        // SHOW PREVIEW
+        const img = document.createElement("img");
+        img.src = imageData;
+        img.width = 200;
+
+        const preview = document.getElementById("preview");
+        preview.innerHTML = "";
+        preview.appendChild(img);
+      };
+
+      reader.readAsDataURL(file);
+
+      currentInput = file.name;
+      document.getElementById("aiSearch").value = file.name;
+    }
+  };
+}
+// 🔗 LINK
+function enterLink(){
+  const link = prompt("Paste image link (URL):");
+
+  if(link && link.startsWith("http")){
+
+    // SAVE INPUT
+    currentInput = link;
+    document.getElementById("aiSearch").value = link;
+
+    // SAVE IMAGE FOR RESULT PAGE
+    localStorage.setItem("aiImage", link);
+
+    // SHOW PREVIEW
+    const img = document.createElement("img");
+    img.src = link;
+    img.width = 200;
+
+    const preview = document.getElementById("preview");
+    preview.innerHTML = "";
+    preview.appendChild(img);
+  }
+}
+
+function showPreview(src){
+  const preview = document.getElementById("preview");
+  preview.innerHTML = "";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.style.width = "150px";
+  img.style.borderRadius = "10px";
+
+  preview.appendChild(img);
+}
+const dropArea = document.getElementById("dropArea");
+
+dropArea.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropArea.style.background = "#ddd";
+});
+
+dropArea.addEventListener("dragleave", () => {
+  dropArea.style.background = "";
+});
+
+dropArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropArea.style.background = "";
+
+  const file = e.dataTransfer.files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+    const imageData = e.target.result;
+
+    // SAVE
+    localStorage.setItem("aiImage", imageData);
+    currentInput = file.name;
+
+    // SHOW IN SKIN ANALYSIS BOX
+    showAnalysisPreview(imageData);
+  };
+
+  reader.readAsDataURL(file);
+});
+function showAnalysisPreview(src){
+  const img = document.getElementById("analysisPreview");
+  const text = document.getElementById("dropText");
+
+  img.src = src;
+  img.style.display = "block";
+  text.style.display = "none";
+}
+function openUpload(){
+  const fileInput = document.getElementById("fileInput");
+
+  fileInput.click();
+
+  fileInput.onchange = function(){
+
+    const file = fileInput.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+      const imageData = e.target.result;
+
+      localStorage.setItem("aiImage", imageData);
+      currentInput = file.name;
+
+      showAnalysisPreview(imageData); // ✅ FIXED
+    };
+
+    reader.readAsDataURL(file);
+  };
+}
+function openCamera(){
+  const video = document.getElementById("camera");
+  const btn = document.getElementById("captureBtn");
+
+  video.style.display = "block";
+  btn.style.display = "inline-block";
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(() => alert("Allow camera permission"));
+}
+function captureImage(){
+  const video = document.getElementById("camera");
+
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0);
+
+  const imageData = canvas.toDataURL("image/png");
+
+  localStorage.setItem("aiImage", imageData);
+
+  showAnalysisPreview(imageData);
+
+  const stream = video.srcObject;
+  stream.getTracks().forEach(track => track.stop());
+
+  video.style.display = "none";
+  document.getElementById("captureBtn").style.display = "none";
+
+  currentInput = "Captured Image";
+}
+function processInput(){
+  if(!currentInput){
+    alert("Please upload or capture image first!");
+    return;
+  }
+
+  localStorage.setItem("aiInput", currentInput);
+
+  window.location.href = "ai-result.html";
+}
+</script>
+
+
+</body>
+</html>
